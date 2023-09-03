@@ -1,0 +1,19 @@
+{
+  "name": "vscode-setit",
+  "version": "1.0.0",
+  "description": "Born from my frustration of owning a crappy laptop, I made this project to easily switch between extensions preset to save memory by deactivating unused extensions",
+  "main": "setit-index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "setit": "node bin/setit-index.js"
+  },
+  "bin": {
+    "setit": "./bin/setit-index.js"
+  },
+  "author": "Lexarque",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^11.0.0",
+    "vscode": "^1.1.37"
+  }
+}
