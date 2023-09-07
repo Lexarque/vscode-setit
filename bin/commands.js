@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const { program } = require("commander");
-const presets = require("../lib/presets.js");
+import { program } from "commander";
+import * as presets from "../lib/presets.js";
 
 program
   .version("1.0.0")
@@ -16,23 +16,27 @@ program
     presets.addPreset(name);
   });
 
-// Define a command to list presets
+// Define a command to list existing presets  
+
+// Define a command to list existing extensions
 program
-  .command("list-presets")
-  .description("List available presets")
-  .action(() => {
-    console.log("Listing available presets:");
-    // Implement your logic to list presets here
+  .command("list-extensions")
+  .description("List installed extensions")
+  .action(async () => {
+    console.log("Listing installed extensions: \n");
+    const availableExtensions = await presets.getAvailableExtensions()
+    availableExtensions.forEach((extension) => {
+      console.log("- " + extension);
+    });
+    console.log("\n");
   });
 
-// Check OS
+// Define a command to delete a preset
 program
-  .command("chk-os")
-  .description("Check OS")
-  .action(() => {
-    console.log("Listing available presets:");
-    presets.checkOS();
+  .command("delete-preset <name>")
+  .description("Delete a preset")
+  .action((name) => {
+    // logic to delete a preset
   });
-// Define other commands for managing presets as needed
 
 program.parse(process.argv);
