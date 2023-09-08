@@ -44,7 +44,7 @@ async function createConfigFile() {
         name: "extensionsFilePath",
         default:
           OS === "win32"
-            ? process.env.USERPROFILE
+            ? process.env.USERPROFILE + "/.vscode/extensions"
             : process.env.HOME + "/.vscode/extensions",
       },
     ]);
