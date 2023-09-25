@@ -9,8 +9,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "setit": "node bin/commands.js",
-    "setit-init": "node bin/init.js"
+    "vscode-setit": "node bin/commands.js",
+    "vscode-setit-init": "node bin/init.js"
   },
   "bin": {
     "setit": "./bin/commands.js"
