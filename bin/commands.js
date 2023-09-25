@@ -24,6 +24,14 @@ program
     presets.deletePreset();
   });
 
+// Defina a command to list existing presets
+program
+  .command("list-presets")
+  .description("List existing presets")
+  .action(() => {
+    presets.showPresetList();
+  });
+
 // Define a command to list existing extensions
 program
   .command("list-extensions")
