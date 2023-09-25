@@ -1,6 +1,7 @@
 import fs from "fs/promises";
 import inquirer from "inquirer";
 import os from "os";
+import path from "path";
 import { fileExists } from "../lib/helper.js";
 
 async function main() {
@@ -23,9 +24,8 @@ async function main() {
     await fs.unlink("./config.json");
     await createConfigFile();
   } else {
-    // Create config.json & presets.json if it doesn't exist
     await createConfigFile();
-    await createPresetsFile([]);
+    await createPresetsFile();
   }
 
   console.log(
@@ -36,21 +36,54 @@ async function main() {
 async function createConfigFile() {
   try {
     const OS = os.platform();
-
-    const extensionsFilePath = await inquirer.prompt([
+    const extensionsFilesFolderPath = await inquirer.prompt([
       {
         type: "input",
         message: "Enter the path to the extensions file:",
-        name: "extensionsFilePath",
+        name: "extensionsFilesFolderPath",
         default:
           OS === "win32"
-            ? process.env.USERPROFILE + "/.vscode/extensions"
-            : process.env.HOME + "/.vscode/extensions",
+            ? path.join(
+              process.env.USERPROFILE,
+              ".vscode",
+              "extensions"
+            )
+            : path.join(
+              process.env.HOME,
+              ".vscode",
+              "extensions"
+            ),
+      },
+    ]);
+
+    const userSettingsFilePath = await inquirer.prompt([
+      {
+        type: "input",
+        message: "Enter the path to the vscode user settings file:",
+        name: "userSettingsFilePath",
+        default:
+          OS === "win32"
+            ? path.join(
+                process.env.USERPROFILE,
+                "AppData",
+                "Roaming",
+                "Code",
+                "User",
+                "settings.json"
+              )
+            : path.join(
+                process.env.HOME,
+                ".config",
+                "Code",
+                "User",
+                "settings.json"
+              ),
       },
     ]);
 
     const configDefault = {
-      EXTENSIONS_FOLDER_PATH: extensionsFilePath.extensionsFilePath,
+      EXTENSIONS_FOLDER_PATH: extensionsFilesFolderPath.extensionsFilesFolderPath,
+      USER_SETTINGS_FILE_PATH: userSettingsFilePath.userSettingsFilePath,
     };
 
     await fs.writeFile("config.json", JSON.stringify(configDefault, null, 2));
@@ -61,7 +94,7 @@ async function createConfigFile() {
 
 async function createPresetsFile() {
   try {
-    await fs.writeFile("presets.json", []);
+    await fs.writeFile("./lib/presets.json", []);
   } catch (error) {
     console.error("Error creating presets.json:", error);
   }
