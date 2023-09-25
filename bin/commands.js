@@ -16,7 +16,13 @@ program
     presets.addPreset(name);
   });
 
-// Define a command to list existing presets  
+// Define a command to delete a preset
+program
+  .command("delete-preset")
+  .description("Delete a preset")
+  .action(() => {
+    presets.deletePreset();
+  });
 
 // Define a command to list existing extensions
 program
@@ -29,14 +35,6 @@ program
       console.log("- " + extension);
     });
     console.log("\n");
-  });
-
-// Define a command to delete a preset
-program
-  .command("delete-preset <name>")
-  .description("Delete a preset")
-  .action((name) => {
-    // logic to delete a preset
   });
 
 program.parse(process.argv);
